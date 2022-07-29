@@ -1,11 +1,12 @@
 const getR2gitlab = ({ response }: { response: any }) => {
-  response.body = "GET OK - Api worked! - webhook: POST /r2gitlab,  test sent to workplace: GET /testSentToWorkplaceChat";
+  response.body =
+    "GET OK - Api worked! - webhook: POST /r2gitlab,  test sent to workplace: GET /testSentToWorkplaceChat";
 };
 
 const testSentToWorkplaceChat = async ({ response }: { response: any }) => {
-    await sentToWorkplaceChat('Api worked!');
-    response.body = "GET OK - Api worked! Check Wp for sent!";
-  };
+  await sentToWorkplaceChat("Api worked!");
+  response.body = "GET OK - Api worked! Check Wp for sent!";
+};
 
 const receivedWebhookR2Gitlab = async ({
   request,
@@ -28,8 +29,8 @@ const receivedWebhookR2Gitlab = async ({
 
   const pipelinesInfoText = getPipelinesInfo(webhookContent);
 
-  //await sentToTelegramApi(pipelinesInfoText);
-  await sentToWorkplaceChat(pipelinesInfoText);
+  await sentToTelegramApi(pipelinesInfoText);
+  //await sentToWorkplaceChat(pipelinesInfoText);
 
   response.status = 200;
 };
@@ -41,7 +42,7 @@ const sentToTelegramApi = async function (text: string) {
     encodeURI(text);
 
   const resp = await fetch(teleBotEnpoint);
-  console.log(resp.status + ": Sent!"); // 200
+  console.log(resp.status + ": Tele Sent!"); // 200
 };
 
 const sentToWorkplaceChat = function (msgtoSent: string) {
@@ -72,21 +73,29 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   myHeaders.append("x-requested-with", "XMLHttpRequest");
   myHeaders.append("x-response-format", "JSONStream");
 
-
   const bodyEncoded = new URLSearchParams();
-bodyEncoded.append("tids", "cid.g.4774597829305770");
-bodyEncoded.append("wwwupp", "C3");
-bodyEncoded.append("body", msgtoSent);
-bodyEncoded.append("waterfall_source", "message");
-bodyEncoded.append("action_time", "1658831449749");
-bodyEncoded.append("__cid", "750043595418020");
-bodyEncoded.append("fb_dtsg", "NAcPorvTGy9mleT-GsijvD9iGUjm5CXebl7F-2z7FibT7Z7k-romPCQ:8:1656559633");
-bodyEncoded.append("jazoest", "25445");
-bodyEncoded.append("lsd", "-kanfWBb3e5k6EZZF_7O0u");
-bodyEncoded.append("__dyn", "1KQEGiEiwgVU-4UpwGzVQ2mml3onxG6U4a6EC5UfQE6C2W3q327E2JxK4o19oe8hwaG3G0Joeoe852q1ew65xO0FE6S1QzU1vrzo1sE52229wcq0C9EdE2IzUuw9O1Awci1qw8W1uwa-7U881soow46wbS1Lwqo");
-bodyEncoded.append("__req", "u");
-bodyEncoded.append("__a", "AYk9w97Cfsy95kk0fud3hOMuyzW4Xs32m18nf8LFtCw3eyqtyilB89cfIx2uwh43dS78oRmdYaVeaCN5HqNPtquNssDUM1-y3_2BWUaRa_zEFw");
-bodyEncoded.append("__user", "100042843791126");
+  bodyEncoded.append("tids", "cid.g.4774597829305770");
+  bodyEncoded.append("wwwupp", "C3");
+  bodyEncoded.append("body", msgtoSent);
+  bodyEncoded.append("waterfall_source", "message");
+  bodyEncoded.append("action_time", "1658831449749");
+  bodyEncoded.append("__cid", "750043595418020");
+  bodyEncoded.append(
+    "fb_dtsg",
+    "NAcPorvTGy9mleT-GsijvD9iGUjm5CXebl7F-2z7FibT7Z7k-romPCQ:8:1656559633",
+  );
+  bodyEncoded.append("jazoest", "25445");
+  bodyEncoded.append("lsd", "-kanfWBb3e5k6EZZF_7O0u");
+  bodyEncoded.append(
+    "__dyn",
+    "1KQEGiEiwgVU-4UpwGzVQ2mml3onxG6U4a6EC5UfQE6C2W3q327E2JxK4o19oe8hwaG3G0Joeoe852q1ew65xO0FE6S1QzU1vrzo1sE52229wcq0C9EdE2IzUuw9O1Awci1qw8W1uwa-7U881soow46wbS1Lwqo",
+  );
+  bodyEncoded.append("__req", "u");
+  bodyEncoded.append(
+    "__a",
+    "AYk9w97Cfsy95kk0fud3hOMuyzW4Xs32m18nf8LFtCw3eyqtyilB89cfIx2uwh43dS78oRmdYaVeaCN5HqNPtquNssDUM1-y3_2BWUaRa_zEFw",
+  );
+  bodyEncoded.append("__user", "100042843791126");
 
   const body = bodyEncoded;
   console.log("Workplace-Chat Sent!"); // 200
