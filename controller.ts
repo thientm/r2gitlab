@@ -159,7 +159,7 @@ let getPipelinesInfo = function (pipeData) {
   if (pipeData.object_attributes.tag) {
     return tagInfoBuilder(pipeData);
   } else {
-    let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n";
+    let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n" +
     "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
       "⚡ Status: " + pipeData.object_attributes.status + " -> " +
       pipeData.object_attributes.detailed_status;
