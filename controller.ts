@@ -33,7 +33,7 @@ const receivedWebhookR2Gitlab = async ({
   if (providerCfg && providerCfg === '1') {
     await sentToTelegramApi(pipelinesInfoText);
   } else if (providerCfg && providerCfg === '2') {
-    await sentToWorkplaceChat(pipelinesInfoText);
+    sentToWorkplaceChat(pipelinesInfoText);
   } else if (providerCfg && providerCfg === '3') {
     await sentToTelegramApiDev(pipelinesInfoText);
   } else {
@@ -60,7 +60,7 @@ const sentToTelegramApi = async function (text: string) {
   console.log(resp.status + ": Tele Sent!"); // 200
 };
 
-const sentToWorkplaceChat = async function (msgtoSent: string) {
+const sentToWorkplaceChat = function (msgtoSent: string) {
   //Header builder
   const myHeaders = new Headers();
   myHeaders.append("authority", "citigo.m.workplace.com");
@@ -120,7 +120,7 @@ const sentToWorkplaceChat = async function (msgtoSent: string) {
 
   console.log("Workplace-Chat Requested!");
   const body = bodyEncoded;
-  await fetch(
+  fetch(
     "https://citigo.m.workplace.com/messages/send/?icm=1",
     {
       method: "POST",
