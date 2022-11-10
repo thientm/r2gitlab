@@ -30,11 +30,11 @@ const receivedWebhookR2Gitlab = async ({
   //response.body = { message: "Received msg: " + content };
 
   const pipelinesInfoText = getPipelinesInfo(webhookContent);
-  if (providerCfg && providerCfg === 1) {
+  if (providerCfg && providerCfg === '1') {
     await sentToTelegramApi(pipelinesInfoText);
-  } else if (providerCfg && providerCfg === 2) {
+  } else if (providerCfg && providerCfg === '2') {
     await sentToWorkplaceChat(pipelinesInfoText);
-  } else if (providerCfg && providerCfg === 3) {
+  } else if (providerCfg && providerCfg === '3') {
     await sentToTelegramApiDev(pipelinesInfoText);
   } else {
     console.log("Debug: ", pipelinesInfoText);
