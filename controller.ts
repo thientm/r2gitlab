@@ -143,8 +143,8 @@ const parseTagEnv = (tagName: string) => {
 };
 
 const tagInfoBuilder = (pipeData) => {
-  let pipeObj = "🚀 Tag " + parseTagEnv(pipeData.object_attributes.ref) + ": ";
-  pipeData.object_attributes.ref + "\n" +
+  let pipeObj = "🚀 Tag " + parseTagEnv(pipeData.object_attributes.ref) + ": " +
+    pipeData.object_attributes.ref + "\n" +
     "👷‍♂️ " + pipeData.user.username + ": " + "⚡ " +
     pipeData.object_attributes.status + " -> " +
     pipeData.object_attributes.detailed_status;
@@ -160,7 +160,7 @@ let getPipelinesInfo = function (pipeData) {
     return tagInfoBuilder(pipeData);
   } else {
     let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n" +
-    "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
+      "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
       "⚡ Status: " + pipeData.object_attributes.status + " -> " +
       pipeData.object_attributes.detailed_status;
     return pipeObj;
