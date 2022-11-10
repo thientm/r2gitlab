@@ -1,3 +1,5 @@
+const providerCfg = Deno.env.get("providerCfg");
+
 const getR2gitlab = ({ response }: { response: any }) => {
   response.body =
     "GET OK - Api worked! - webhook: POST /r2gitlab,  test sent to workplace: GET /testSentToWorkplaceChat";
@@ -28,15 +30,28 @@ const receivedWebhookR2Gitlab = async ({
   //response.body = { message: "Received msg: " + content };
 
   const pipelinesInfoText = getPipelinesInfo(webhookContent);
-
-  await sentToTelegramApi(pipelinesInfoText);
-  //await sentToWorkplaceChat(pipelinesInfoText);
+  if (providerCfg && providerCfg === 1) {
+    await sentToTelegramApi(pipelinesInfoText);
+  } else if (providerCfg && providerCfg === 2) {
+    await sentToWorkplaceChat(pipelinesInfoText);
+  } else if (providerCfg && providerCfg === 3) {
+    await sentToTelegramApiDev(pipelinesInfoText);
+  } else {
+    console.log("Debug: ", pipelinesInfoText);
+  }
 
   response.status = 200;
 };
 
+const sentToTelegramApiDev = async function (text: string) {
+  const teleBotEnpoint =
+    "https://api.telegram.org/bot5337368328:AAH7FQeGeXk6AvubjpvuMYuqclTPI9mwYhs/sendMessage?chat_id=-1001531122216&text=" +
+    encodeURI(text);
+  const resp = await fetch(teleBotEnpoint);
+  console.log(resp.status + ": Tele Sent!"); // 200
+};
+
 const sentToTelegramApi = async function (text: string) {
-  //configTelegramBot.url = 'https://api.telegram.org/bot5337368328:AAH7FQeGeXk6AvubjpvuMYuqclTPI9mwYhs/sendMessage?chat_id=-1001531122216&text=' + encodeURI(text)
   const teleBotEnpoint =
     "https://api.telegram.org/bot5337368328:AAH7FQeGeXk6AvubjpvuMYuqclTPI9mwYhs/sendMessage?chat_id=-717245078&text=" +
     encodeURI(text);
@@ -45,21 +60,18 @@ const sentToTelegramApi = async function (text: string) {
   console.log(resp.status + ": Tele Sent!"); // 200
 };
 
-const sentToWorkplaceChat = function (msgtoSent: string) {
+const sentToWorkplaceChat = async function (msgtoSent: string) {
+  //Header builder
   const myHeaders = new Headers();
   myHeaders.append("authority", "citigo.m.workplace.com");
   myHeaders.append("accept", "*/*");
   myHeaders.append("accept-language", "en-US,en;q=0.9,vi;q=0.8,la;q=0.7");
   myHeaders.append("content-type", "application/x-www-form-urlencoded");
-  myHeaders.append(
-    "cookie",
-    "datr=4he9Ykshdo-z0VylQtFho8KW; sb=EBi9YrIuKz_fTS10xUZdZfCv; c_user=100042843791126; presence=EDvF3EtimeF1657253794EuserFA21B42843791126A2EstateFDutF0CEchF_7bCC; dpr=3; wd=390x844; m_pixel_ratio=3; xs=8%3ALenKhBqXwvz8Xw%3A2%3A1656559633%3A-1%3A-1%3A%3AAcUDxYbze0973oSh7vENAzL49lTUm3U3XgMb2C4VZPDs",
-  );
   myHeaders.append("dnt", "1");
   myHeaders.append("origin", "https://citigo.m.workplace.com");
   myHeaders.append(
     "referer",
-    "https://citigo.m.workplace.com/chat/t/4774597829305770",
+    "https://citigo.m.workplace.com/chat/t/5401287386619630",
   );
   myHeaders.append("sec-fetch-dest", "empty");
   myHeaders.append("sec-fetch-mode", "cors");
@@ -68,38 +80,47 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
     "user-agent",
     "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
   );
-  myHeaders.append("x-fb-lsd", "-kanfWBb3e5k6EZZF_7O0u");
+  myHeaders.append("x-fb-lsd", "OSa_UFP-sQk0XkkN2wIQgd");
   myHeaders.append("x-msgr-region", "PRN");
   myHeaders.append("x-requested-with", "XMLHttpRequest");
   myHeaders.append("x-response-format", "JSONStream");
-
+  // Cookie may change
+  myHeaders.append(
+    "cookie",
+    "datr=4he9Ykshdo-z0VylQtFho8KW; sb=EBi9YrIuKz_fTS10xUZdZfCv; c_user=100042843791126; presence=EDvF3EtimeF1657253794EuserFA21B42843791126A2EstateFDutF0CEchF_7bCC; dpr=3; wd=390x844; m_pixel_ratio=3; xs=8%3ALenKhBqXwvz8Xw%3A2%3A1656559633%3A-1%3A-1%3A%3AAcUDxYbze0973oSh7vENAzL49lTUm3U3XgMb2C4VZPDs",
+  );
+  // END Header builder
+  // Body builder
   const bodyEncoded = new URLSearchParams();
-  bodyEncoded.append("tids", "cid.g.4774597829305770");
+  bodyEncoded.append("tids", "cid.g.5401287386619630");
   bodyEncoded.append("wwwupp", "C3");
-  bodyEncoded.append("body", msgtoSent);
   bodyEncoded.append("waterfall_source", "message");
-  bodyEncoded.append("action_time", "1658831449749");
+  bodyEncoded.append("action_time", new Date().getTime().toString());
   bodyEncoded.append("__cid", "750043595418020");
+  bodyEncoded.append("lsd", "OSa_UFP-sQk0XkkN2wIQgd");
+  bodyEncoded.append("__user", "100042843791126");
+  // may change
   bodyEncoded.append(
     "fb_dtsg",
-    "NAcPorvTGy9mleT-GsijvD9iGUjm5CXebl7F-2z7FibT7Z7k-romPCQ:8:1656559633",
+    "NAcPul8wAx-3X5f3o0MB-zJrjYLUNO8uvaiGtnoWxmx0mEC013y3GZA:37:1658895813",
   );
-  bodyEncoded.append("jazoest", "25445");
-  bodyEncoded.append("lsd", "-kanfWBb3e5k6EZZF_7O0u");
+  bodyEncoded.append("jazoest", "25399");
   bodyEncoded.append(
     "__dyn",
-    "1KQEGiEiwgVU-4UpwGzVQ2mml3onxG6U4a6EC5UfQE6C2W3q327E2JxK4o19oe8hwaG3G0Joeoe852q1ew65xO0FE6S1QzU1vrzo1sE52229wcq0C9EdE2IzUuw9O1Awci1qw8W1uwa-7U881soow46wbS1Lwqo",
+    "1KQEGiEiwgVU-4UpwGzVQ2mml3onxG6U4a6EC5UfQE6C2W3q327E2JxK4o19oe8hwem0Joeoe852q1ew65xO0FE6S1QzU1vrzo1sE52229wcq0C9EdE2IzUuw9O1Awci1qw8W1uwa-7U881soow46wbS1Lwqo2Yw",
   );
-  bodyEncoded.append("__req", "u");
+  bodyEncoded.append("__req", "f");
   bodyEncoded.append(
     "__a",
-    "AYk9w97Cfsy95kk0fud3hOMuyzW4Xs32m18nf8LFtCw3eyqtyilB89cfIx2uwh43dS78oRmdYaVeaCN5HqNPtquNssDUM1-y3_2BWUaRa_zEFw",
+    "AYlpWcOZloNdRTZDALfYfmhKzILt8flbxW_8P_5HDAvnn_N4Lweaw0eqcuE9whJ4YqnAjS149eL9jHcgbh1ih1H6GalzrpHD4QLMDALt43FsDg",
   );
-  bodyEncoded.append("__user", "100042843791126");
 
+  bodyEncoded.append("body", msgtoSent);
+  // END Body builder
+
+  console.log("Workplace-Chat Requested!");
   const body = bodyEncoded;
-  console.log("Workplace-Chat Sent!"); // 200
-  const resp = fetch(
+  await fetch(
     "https://citigo.m.workplace.com/messages/send/?icm=1",
     {
       method: "POST",
@@ -107,7 +128,6 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
       body,
     },
   );
-  //console.log(resp.status + ": Workplace-Chat Sent!"); // 200
 };
 
 let getPipelinesInfo = function (pipeData) {
