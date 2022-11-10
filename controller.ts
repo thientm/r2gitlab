@@ -78,7 +78,7 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   myHeaders.append("sec-fetch-site", "same-origin");
   myHeaders.append(
     "user-agent",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36",
   );
   myHeaders.append("x-fb-lsd", "OSa_UFP-sQk0XkkN2wIQgd");
   myHeaders.append("x-msgr-region", "PRN");
@@ -95,7 +95,7 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   bodyEncoded.append("tids", "cid.g.5401287386619630");
   bodyEncoded.append("wwwupp", "C3");
   bodyEncoded.append("waterfall_source", "message");
-  bodyEncoded.append("action_time", new Date().getTime().toString());
+  bodyEncoded.append("action_time", '1668049488450');
   bodyEncoded.append("__cid", "750043595418020");
   bodyEncoded.append("lsd", "OSa_UFP-sQk0XkkN2wIQgd");
   bodyEncoded.append("__user", "100042843791126");
