@@ -130,13 +130,41 @@ const sentToWorkplaceChat = async function (msgtoSent: string) {
   );
 };
 
-let getPipelinesInfo = function (pipeData) {
-  let pipeObj = "🚀 " + (pipeData.object_attributes.tag ? "New Tag: " : "") +
-    pipeData.object_attributes.ref + "\n" +
-    "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
-    "⚡ Status: " + pipeData.object_attributes.status + " -> " +
+const parseTagEnv = (tagName: string) => {
+  if (tagName.indexOf("dc2s-retail") > -1) {
+    return "Staging";
+  }
+  if (tagName.indexOf("dc1-production") > -1) {
+    return "Production-Dc1";
+  }
+  if (tagName.indexOf("dc2-production") > -1) {
+    return "Production-Dc2";
+  }
+};
+
+const tagInfoBuilder = (pipeData) => {
+  let pipeObj = "🚀 Tag " + parseTagEnv(pipeData.object_attributes.ref) + ": ";
+  pipeData.object_attributes.ref + "\n" +
+    "👷‍♂️ " + pipeData.user.username + ": " + "⚡ " +
+    pipeData.object_attributes.status + " -> " +
     pipeData.object_attributes.detailed_status;
   return pipeObj;
+};
+
+let getPipelinesInfo = function (pipeData) {
+  if (pipeData.object_attributes.status === "pending") {
+    return "";
+  }
+
+  if (pipeData.object_attributes.tag) {
+    return tagInfoBuilder(pipeData);
+  } else {
+    let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n";
+    "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
+      "⚡ Status: " + pipeData.object_attributes.status + " -> " +
+      pipeData.object_attributes.detailed_status;
+    return pipeObj;
+  }
 };
 
 export { getR2gitlab, receivedWebhookR2Gitlab, testSentToWorkplaceChat };
