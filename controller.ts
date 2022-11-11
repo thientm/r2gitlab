@@ -78,13 +78,13 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   myHeaders.append("sec-fetch-site", "same-origin");
   myHeaders.append(
     "user-agent",
-    "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36",
-  );
-  myHeaders.append("x-fb-lsd", "OSa_UFP-sQk0XkkN2wIQgd");
+    "Mozilla/5.0 (Linux; Android 9.0; SAMSUNG SM-F900U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36",
+  );  
   myHeaders.append("x-msgr-region", "PRN");
   myHeaders.append("x-requested-with", "XMLHttpRequest");
   myHeaders.append("x-response-format", "JSONStream");
   // Cookie may change
+  myHeaders.append("x-fb-lsd", "XvRFYOVqnZcLs1C9VZA3g6");
   myHeaders.append(
     "cookie",
     "datr=4he9Ykshdo-z0VylQtFho8KW; sb=EBi9YrIuKz_fTS10xUZdZfCv; c_user=100042843791126; presence=EDvF3EtimeF1657253794EuserFA21B42843791126A2EstateFDutF0CEchF_7bCC; dpr=3; wd=390x844; m_pixel_ratio=3; xs=8%3ALenKhBqXwvz8Xw%3A2%3A1656559633%3A-1%3A-1%3A%3AAcUDxYbze0973oSh7vENAzL49lTUm3U3XgMb2C4VZPDs",
@@ -95,24 +95,24 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   bodyEncoded.append("tids", "cid.g.5401287386619630");
   bodyEncoded.append("wwwupp", "C3");
   bodyEncoded.append("waterfall_source", "message");
-  bodyEncoded.append("action_time", "1668049488450");
+  bodyEncoded.append("action_time", "1668155442141");
   bodyEncoded.append("__cid", "750043595418020");
-  bodyEncoded.append("lsd", "OSa_UFP-sQk0XkkN2wIQgd");
+  bodyEncoded.append("lsd", "XvRFYOVqnZcLs1C9VZA3g6");
   bodyEncoded.append("__user", "100042843791126");
   // may change
   bodyEncoded.append(
     "fb_dtsg",
-    "NAcPul8wAx-3X5f3o0MB-zJrjYLUNO8uvaiGtnoWxmx0mEC013y3GZA:37:1658895813",
+    "NAcP2djQGCFnjSOYPFagE5RXFA6MGEWwowFYC33R9gql26clR_ZmLJg:37:1658895813",
   );
-  bodyEncoded.append("jazoest", "25399");
+  bodyEncoded.append("jazoest", "25305");
   bodyEncoded.append(
     "__dyn",
     "1KQEGiEiwgVU-4UpwGzVQ2mml3onxG6U4a6EC5UfQE6C2W3q327E2JxK4o19oe8hwem0Joeoe852q1ew65xO0FE6S1QzU1vrzo1sE52229wcq0C9EdE2IzUuw9O1Awci1qw8W1uwa-7U881soow46wbS1Lwqo2Yw",
   );
-  bodyEncoded.append("__req", "f");
+  bodyEncoded.append("__req", "b");
   bodyEncoded.append(
     "__a",
-    "AYlpWcOZloNdRTZDALfYfmhKzILt8flbxW_8P_5HDAvnn_N4Lweaw0eqcuE9whJ4YqnAjS149eL9jHcgbh1ih1H6GalzrpHD4QLMDALt43FsDg",
+    "AYkV8secHl78WKdH02O1Ay6rlSqEbInqQ7uVMu3HUlrzZXB6_xFhfMwwmcOAE84gZLk_O8J0I9f6dWTjppH0uM5E2knRjZ2Aj0lT9MO-HCnEYA",
   );
 
   bodyEncoded.append("body", msgtoSent);
