@@ -30,11 +30,11 @@ const receivedWebhookR2Gitlab = async ({
   //response.body = { message: "Received msg: " + content };
 
   const pipelinesInfoText = getPipelinesInfo(webhookContent);
-  if (providerCfg && providerCfg === '1') {
+  if (providerCfg && providerCfg === "1") {
     await sentToTelegramApi(pipelinesInfoText);
-  } else if (providerCfg && providerCfg === '2') {
+  } else if (providerCfg && providerCfg === "2") {
     sentToWorkplaceChat(pipelinesInfoText);
-  } else if (providerCfg && providerCfg === '3') {
+  } else if (providerCfg && providerCfg === "3") {
     await sentToTelegramApiDev(pipelinesInfoText);
   } else {
     console.log("Debug: ", pipelinesInfoText);
@@ -95,7 +95,7 @@ const sentToWorkplaceChat = function (msgtoSent: string) {
   bodyEncoded.append("tids", "cid.g.5401287386619630");
   bodyEncoded.append("wwwupp", "C3");
   bodyEncoded.append("waterfall_source", "message");
-  bodyEncoded.append("action_time", '1668049488450');
+  bodyEncoded.append("action_time", "1668049488450");
   bodyEncoded.append("__cid", "750043595418020");
   bodyEncoded.append("lsd", "OSa_UFP-sQk0XkkN2wIQgd");
   bodyEncoded.append("__user", "100042843791126");
@@ -152,7 +152,10 @@ const tagInfoBuilder = (pipeData) => {
 };
 
 let getPipelinesInfo = function (pipeData) {
-  if (pipeData.object_attributes.status === "pending") {
+  if (
+    pipeData.object_attributes.status === "pending" ||
+    pipeData.object_attributes.status === "canceled"
+  ) {
     return "";
   }
 
