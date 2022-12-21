@@ -1,8 +1,7 @@
 const providerCfg = Deno.env.get("providerCfg");
 
 const getR2gitlab = ({ response }: { response: any }) => {
-  response.body =
-    "GET OK - Api worked! - webhook: POST /r2gitlab";
+  response.body = "GET OK - Api worked! - webhook: POST /r2gitlab";
 };
 
 const receivedWebhookR2Gitlab = async ({
@@ -28,7 +27,6 @@ const receivedWebhookR2Gitlab = async ({
   if (providerCfg && providerCfg === "1") {
     await sentToTelegramApi(pipelinesInfoText);
   } else if (providerCfg && providerCfg === "2") {
-    
   } else if (providerCfg && providerCfg === "3") {
     await sentToTelegramApiDev(pipelinesInfoText);
   } else {
@@ -68,10 +66,12 @@ const parseTagEnv = (tagName: string) => {
 };
 
 const tagInfoBuilder = (pipeData) => {
+  const statusPipe = pipeData.object_attributes.status;
   let pipeObj = "🚀 Tag" + ": " +
     pipeData.object_attributes.ref + "\n" +
-    "👷‍♂️ " + pipeData.user.username + ": " + parseTagEnv(pipeData.object_attributes.ref) + "\n"
-  statusPipe === 'success' ? '✔' : '❌' +
+    "👷‍♂️ " + pipeData.user.username + ": " +
+    parseTagEnv(pipeData.object_attributes.ref) + "\n" +
+    (statusPipe === "success" ? "✔" : "❌") +
     pipeData.object_attributes.status + " -> " +
     pipeData.object_attributes.detailed_status;
   return pipeObj;
@@ -92,9 +92,9 @@ let getPipelinesInfo = function (pipeData) {
   } else {
     let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n" +
       "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
-      statusPipe === 'success' ? '✔' : '❌' +
-      " Status: " + pipeData.object_attributes.status + " -> " +
-    pipeData.object_attributes.detailed_status;
+      (statusPipe === "success" ? "✔" : "❌") + " Status: " +
+      pipeData.object_attributes.status + " -> " +
+      pipeData.object_attributes.detailed_status;
     return pipeObj;
   }
 };
