@@ -58,28 +58,28 @@ const tagInfoBuilder = (pipeData) => {
     "👷‍♂️ " + pipeData.user.username + ": " +
     parseTagEnv(pipeData.object_attributes.ref) + "\n" +
     (statusPipe === "success" ? "✔" : "❌") +
-    pipeData.object_attributes.status + " -> " +
+    statusPipe + " -> " +
     pipeData.object_attributes.detailed_status;
   return pipeObj;
 };
 
 let getPipelinesInfo = function (pipeData) {
-  const statusPipe = pipeData.object_attributes.status;
-  if (
-    statusPipe === "pending" ||
-    statusPipe === "running" ||
-    statusPipe === "canceled"
-  ) {
-    return "";
-  }
-
   if (pipeData.object_attributes.tag) {
     return tagInfoBuilder(pipeData);
   } else {
+    const statusPipe = pipeData.object_attributes.status;
+    if (
+      statusPipe === "pending" ||
+      statusPipe === "running" ||
+      statusPipe === "canceled"
+    ) {
+      return "";
+    }
+
     let pipeObj = "👀 " + pipeData.object_attributes.ref + "\n" +
       "👷‍♂️ " + pipeData.user.username + ": " + pipeData.commit.title + "\n" +
       (statusPipe === "success" ? "✔" : "❌") + " Status: " +
-      pipeData.object_attributes.status + " -> " +
+      statusPipe + " -> " +
       pipeData.object_attributes.detailed_status;
     return pipeObj;
   }
