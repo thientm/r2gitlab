@@ -21,27 +21,13 @@ const receivedWebhookR2Gitlab = async ({
   }
 
   const webhookContent = await request.body().value;
-  //response.body = { message: "Received msg: " + content };
 
   const pipelinesInfoText = getPipelinesInfo(webhookContent);
-  if (providerCfg && providerCfg === "1") {
-    await sentToTelegramApi(pipelinesInfoText);
-  } else if (providerCfg && providerCfg === "2") {
-  } else if (providerCfg && providerCfg === "3") {
-    await sentToTelegramApiDev(pipelinesInfoText);
-  } else {
-    console.log("Debug: ", pipelinesInfoText);
-  }
+
+  console.log("Debug: ", pipelinesInfoText);
+  await sentToTelegramApi(pipelinesInfoText);
 
   response.status = 200;
-};
-
-const sentToTelegramApiDev = async function (text: string) {
-  const teleBotEnpoint =
-    "https://api.telegram.org/bot5337368328:AAH7FQeGeXk6AvubjpvuMYuqclTPI9mwYhs/sendMessage?chat_id=-1001531122216&text=" +
-    encodeURI(text);
-  const resp = await fetch(teleBotEnpoint);
-  console.log(resp.status + ": Tele Sent!"); // 200
 };
 
 const sentToTelegramApi = async function (text: string) {
